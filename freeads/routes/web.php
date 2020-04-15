@@ -18,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/','IndexController@showIndex');
+
+Route::get('/register','IndexController@registerIndex');
