@@ -8,12 +8,17 @@ class IndexController extends Controller
 {
     public function showIndex(){
 
-        return view('home.index');
+        return view('user.index');
     }
 
     public function registerIndex(){
 
-        return view('home.register');
+        return view('user.register');
     }
+
+    // public function updateIndex(){
+
+    //     return view('user.modify');
+    // }
 
 }
