@@ -29,7 +29,6 @@ class HomeController extends Controller
     public function modify()
     {
         return view('user.modify');
-
     }
 
 }

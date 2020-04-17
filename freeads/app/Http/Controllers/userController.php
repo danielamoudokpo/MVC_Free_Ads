@@ -16,6 +16,10 @@ class userController extends Controller
      */
     public function index(Request $request)
     {
+        // $users = User::all();
+        // foreach ($users as $user) {
+        // echo $user->name . '<br>';
+        // }
 
         // var_dump($request);
     }
@@ -38,7 +42,7 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
     }
 
     /**
@@ -47,9 +51,10 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        // echo "heol";
+        var_dump($id);
     }
 
     /**
@@ -58,9 +63,9 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function modif(User $user)
     {
-        //
+        // return view('user.modify');
     }
 
     /**
@@ -70,18 +75,29 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request,User $user )
     {
+        // dump($user);
         $user = User::find(Auth::user()->id);
 
-        $user->name = $request['name'];
-        $user->name = $request['email'];
-        $user->name = $request['password'];
+        if (isset($request['name'])) {
 
-        var_dump($request["password"]);
+            $user->name = $request['name'];
+            $user->save();
+            return redirect()->back();
+
+        }else if(isset($request['email'])){
+
+            $user->email = $request['email'];
+            $user->save();
+            return redirect()->back();
+        }else if(isset($request['password'])){
+
+            $user->password = $request['password'];
+            $user->save();
+            return redirect()->back();
+        }
         
-        // save();
-        // return redirect()->back();
     }
 
     /**
@@ -90,7 +106,7 @@ class userController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
         //
     }

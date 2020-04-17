@@ -16,9 +16,4 @@ class IndexController extends Controller
         return view('user.register');
     }
 
-    // public function updateIndex(){
-
-    //     return view('user.modify');
-    // }
-
 }

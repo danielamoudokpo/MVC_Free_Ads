@@ -24,14 +24,13 @@
                             </div>
                             <div class="col-md-2 ">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                    {{ __('Update Name') }}
                                 </button>
                             </div>
                         </div>
                     </form>
                     
                     <form method="POST" action="{{ route('user.modify') }}">
-                        @csrf
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('New E-Mail') }}</label>
 
@@ -45,8 +44,8 @@
                                 @enderror
                             </div>
                             <div class="col-md-2 ">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                <button type ="submit" class="btn btn-primary">
+                                    {{ __('Update Email') }}
                                 </button>
                             </div>
                         </div>
@@ -69,7 +68,7 @@
 
                             <div class="col-md-2 ">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                    {{ __('Update Password') }}
                                 </button>
                             </div>
                         </div>

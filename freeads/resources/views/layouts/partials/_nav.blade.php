@@ -9,12 +9,18 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                     <li class="nav-item active ">
+                         <a href="{{route('home')}}">HOME</a> 
+                    </li>   
                     <ul class="navbar-nav mr-auto">
-
+                        {{-- <li class="nav-item active ">
+                            <a href="#">add add</a> 
+                        </li>    --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item ">
@@ -26,6 +32,11 @@
                                 </li>
                             @endif
                         @else
+                        
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{route('Annonce.create')}}">Add Ads <span class="sr-only">(current)</span></a>
+                            </li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -46,6 +57,7 @@
 
                                 </div>
                             </li>
+                     
                         @endguest
                     </ul>
                 </div>
