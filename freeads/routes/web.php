@@ -27,17 +27,19 @@ Route::get('/home/modify', 'HomeController@modify')->name('user.modify');
 
 Route::post('/home/modify', 'userController@update');
 
-// Route::post('/home/addannonce', 'AnnonceController@u');
+
+// Route::get('/Annonce/index', 'AnnonceController@index');
+
+// Route::get('/Annonce.update', 'AnnonceController@update');
+
+
+Route::get('/Annonce/search', 'AnnonceController@search')->name('Annonce.search');
+
+Route::post('/Annonce/search', 'AnnonceController@search')->name('Annonce.search');
+
+
 Route::resource('Annonce','AnnonceController');
 
-Route::get('/uploadfile', 'AnnonceController@index');
-
-Route::post('/uploadfile', 'AnnonceController@upload');
-// Route::get('Annonce/create',function(){
-//     return "Formulair recu";
-// });
-
-// Route::post('/home/all', 'userController@index');
 
 
 

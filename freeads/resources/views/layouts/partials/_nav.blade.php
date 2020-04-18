@@ -9,14 +9,19 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                     <li class="nav-item active ">
-                         <a href="{{route('home')}}">HOME</a> 
-                    </li>   
-                    <ul class="navbar-nav mr-auto">
-                        {{-- <li class="nav-item active ">
-                            <a href="#">add add</a> 
-                        </li>    --}}
-                    </ul>
+                  
+
+                     <li class="nav-item ">
+                         <a class="w3-jumbo w3-spin fa fa-home" href="{{route('home')}}">HOME</a> 
+                    </li>  
+
+                    <li class="nav-item active ">
+                         <a href="{{route('Annonce.index')}}">ANNONCE</a> 
+                    </li>  
+                    
+                    <li class="nav-item ">
+                        <a class="fa fa-search" href="{{route('Annonce.search')}}">SEARCH</a> 
+                   </li> 
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -36,6 +41,10 @@
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{route('Annonce.create')}}">Add Ads <span class="sr-only">(current)</span></a>
                             </li>
+
+                            {{-- <li class="nav-item active">
+                                <a class="nav-link" href="{{route('Annonce.create')}}">Edite Ads <span class="sr-only">(current)</span></a>
+                            </li> --}}
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

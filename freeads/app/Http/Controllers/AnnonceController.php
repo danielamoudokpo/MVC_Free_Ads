@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Annonce;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AnnonceController extends Controller
 {
@@ -14,7 +16,31 @@ class AnnonceController extends Controller
      */
     public function index()
     {
-        return view('Annonce.index');
+        $annonce = Annonce::orderBy('title','asc')->get();
+        // echo "test";
+        
+        return view('Annonce.index')->with('Annonce',$annonce);
+    }
+/**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request){
+
+    $titleValue =  $request['searchByName'];
+    // $annonce = Annonce::where('title','LIKE' ,'%'.$titleValue.'%')->get();
+   
+
+    $prixValue =  $request['searchByPrice'];
+
+    // if (isset($prixValue)&& is_integer($prixValue)) {
+
+        $annonce = Annonce::orderBy('prix','desc')->get();
+    
+
+    return view('Annonce.search')->with('Annonce',$annonce);
+
     }
 
     /**
@@ -28,8 +54,12 @@ class AnnonceController extends Controller
         // $annonce = 
 
         return view('Annonce.create');
+
+        // return "sdf";
         
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -42,16 +72,43 @@ class AnnonceController extends Controller
         $this->validate($request,[
             'title' => 'required',
             'description'=> 'required',
-            'photographie'=> 'required',
+            'image1'=> 'required|image|max:1999',
+            'image2'=> 'nullable|image|max:1999',
             'prix'=> 'required|integer',
         ]);
+
+        // FILL HANDLER
+       
+        $filenameExt = $request->file('image1')->getClientOriginalName(); 
+        $filename = pathinfo($filenameExt,PATHINFO_FILENAME);
+        $extension = $request->file('image1')->getClientOriginalExtension();
+        // FILLENAME TO STORE
+        $fileNameToStore = $filename.'-'.time().'.'.$extension;
+        $path =$request->file('image1')->storeAs('public/images',$fileNameToStore);
+
+        if ($request->hasFile('image2')) {
+            $filenameExt = $request->file('image2')->getClientOriginalName(); 
+            $filename = pathinfo($filenameExt,PATHINFO_FILENAME);
+            $extension = $request->file('image2')->getClientOriginalExtension();
+            // FILLENAME TO STORE
+            $fileNameToStore2 = $filename.'-'.time().'.'.$extension;
+            $path =$request->file('image2')->storeAs('public/images',$fileNameToStore2);
+        }else{
+            $fileNameToStore2 = 'noImage.jpg';
+        }
         
         $annonce = new Annonce;
 
         $annonce->title = $request['title'];
         $annonce->description = $request['description'];
-        $annonce->photographie = $request['photographie'];
+        $annonce->image1 = $fileNameToStore;
+        if ($request->hasFile('image2')) {
+            $annonce->image2 = $fileNameToStore2;
+        }else{
+            $fileNameToStore2 = 'noImage.jpg';
+        }
         $annonce->prix = $request['prix'];
+        $annonce->user_id = Auth::user()->id;
 
         $annonce->save();
 
@@ -69,9 +126,11 @@ class AnnonceController extends Controller
      * @param  \App\Annonce  $annonce
      * @return \Illuminate\Http\Response
      */
-    public function show(Annonce $annonce)
+    public function show($id)
     {
-        //
+        $annonce = Annonce::find($id);
+        
+        return view('Annonce.show')->with('Annonce',$annonce);
     }
 
     /**
@@ -80,9 +139,12 @@ class AnnonceController extends Controller
      * @param  \App\Annonce  $annonce
      * @return \Illuminate\Http\Response
      */
-    public function edit(Annonce $annonce)
+    public function edit($id)
     {
-        //
+        $annonce = Annonce::find($id);
+
+        return view('Annonce.edit')->with('Annonce',$annonce);
+
     }
 
     /**
@@ -92,14 +154,40 @@ class AnnonceController extends Controller
      * @param  \App\Annonce  $annonce
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Annonce $annonce)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        if($request->hasFile('image')){
+            $filenameExt = $request->file('image1')->getClientOriginalName(); 
+            $filename = pathinfo($filenameExt,PATHINFO_FILENAME);
+            $extension = $request->file('image1')->getClientOriginalExtension();
+            // FILLENAME TO STORE
+            $fileNameToStore = $filename.'-'.time().'.'.$extension;
+            $path = $request->file('image1')->storeAs('public/images',$fileNameToStore);
+        }
+        $this->validate($request,[
+            'title' => 'required',
+            'description'=> 'required',
+            'image1'=> 'nullable',
+            'image1'=> 'nullable',
+            'prix'=> 'required|integer',
+        ]);
+        
+        $annonce = Annonce::find($id);
 
-  
+        $annonce->title = $request['title'];
+        $annonce->description = $request['description'];
+        if($request->hasFile('image1')){
+            $annonce->image1 = $fileNameToStore;
+        }
+        if($request->hasFile('image2')){
+            $annonce->image1 = $fileNameToStore2;
+        }
+        $annonce->prix = $request['prix'];
 
-    public function upload(){
+        $annonce->save();
+
+        return redirect()->back()->with('success','Add Updated');
+
 
     }
 
@@ -109,8 +197,13 @@ class AnnonceController extends Controller
      * @param  \App\Annonce  $annonce
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Annonce $annonce)
+    public function destroy($id)
     {
-        //
+        $annonce = Annonce::find($id);
+
+        $annonce->delete();
+
+        return redirect('/Annonce')->with('success','Add Deleted');
     }
 }
+

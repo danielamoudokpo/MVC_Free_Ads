@@ -2,10 +2,22 @@
 
 @section('content')
 
-
-
 <div class="container">
-    <h1>Les Annonces</h1>
+
+<form class="form-inline my-2 my-lg-0" method="POST" action="{{route('Annonce.search')}}">
+    @csrf
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchByName">
+    <button class=" fa fa-search btn btn-outline-success my-2 my-sm-0" type="submit">Search~Name</button>
+  </form>
+
+  <form class="form-inline my-2 my-lg-0" method="POST" action="{{route('Annonce.search')}}">
+    @csrf
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchByPrice">
+    <button class=" fas fa-search-dollar btn btn-outline-success my-2 my-sm-0" type="submit">Search~price</button>
+    {{-- <i class="fas fa-search-dollar"></i> --}}
+
+  </form>
+    <h1>Searched Annonces</h1>
     <div class="row">
         
         <div class="col-md-8 col-md-offset-2">
@@ -32,7 +44,7 @@
         </div>
     @endforeach
     @else
-        <h1>No Annonce Avalaible</h1>
+        <h1>No Annonce Found</h1>
     @endif
         </div>
     </div>
