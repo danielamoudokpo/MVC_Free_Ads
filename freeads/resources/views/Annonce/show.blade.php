@@ -2,7 +2,9 @@
 
 
 @section('content')
-
+<li class="nav-item ">
+    <a class="fa fa-hand-o-left" style="font-size:36px" href="{{route('Annonce.index')}}">BACK</a> 
+</li> 
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -13,10 +15,13 @@
             </div>
             <div class="form-group">
                 {{-- <label for="description">Image</label> --}}
-                <img style="width:50%" src="/storage/images/{{$Annonce->image1}}"/>
-                @if($Annonce->image2 === "noImage.jpg")
-                <img style="width:50%" src="/storage/images/{{$Annonce->image2}}"/>
-            @endif
+                <img style="width:40%" src="/storage/images/{{$Annonce->image1}}"/>
+
+                @if(isset($Annonce->image2) && $Annonce->image2 !== "noImage.jpg")
+    
+                    <img style="width:50%" src="/storage/images/{{$Annonce->image2}}"/>
+    
+                @endif
             </div>
             <div class="form-group">
                 <label for="description">Description</label>

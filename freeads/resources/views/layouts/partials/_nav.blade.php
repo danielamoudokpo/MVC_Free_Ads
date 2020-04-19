@@ -18,10 +18,6 @@
                     <li class="nav-item active ">
                          <a href="{{route('Annonce.index')}}">ANNONCE</a> 
                     </li>  
-                    
-                    <li class="nav-item ">
-                        <a class="fa fa-search" href="{{route('Annonce.search')}}">SEARCH</a> 
-                   </li> 
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

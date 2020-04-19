@@ -40,6 +40,9 @@ Route::post('/Annonce/search', 'AnnonceController@search')->name('Annonce.search
 
 Route::resource('Annonce','AnnonceController');
 
+Route::resource('Message','MessageController');
+
+
 
 
 

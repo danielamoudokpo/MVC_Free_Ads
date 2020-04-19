@@ -29,7 +29,7 @@
 
                  <div>
                     <label for="image2">image2 <span class="require"></label>
-                    <input id="image2" type="file" class="form-control @error('image1') is-invalid @enderror" name="image2" value="{{ old('image2') }}" autocomplete="image2">
+                    <input id="image2" type="file" class="form-control @error('image2') is-invalid @enderror" name="image2" value="{{ old('image2') }}" autocomplete="image2">
                  </div>
 
                 <div class="form-group">

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Annonce;
+use App\Message;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,18 +31,33 @@ class AnnonceController extends Controller
      */
     public function search(Request $request){
 
-    $titleValue =  $request['searchByName'];
-    // $annonce = Annonce::where('title','LIKE' ,'%'.$titleValue.'%')->get();
-   
+        
+        $titleValue = $request['searchByName'];
+        $prixOrder = $request['searchByPrice'];
+        $dateOrder = $request['searchByDate'];
 
-    $prixValue =  $request['searchByPrice'];
+    if ($prixOrder != 'Price' && $dateOrder != 'Date' ) {
+        
+        $annonce = Annonce::where('title', 'LIKE', "%".$titleValue."%")
+                        ->orderBy('prix', $prixOrder)
+                            ->orderBy('created_at', $dateOrder)
+                                    ->get();
 
-    // if (isset($prixValue)&& is_integer($prixValue)) {
+            return view('Annonce.search')->with('Annonce',$annonce);
+    }
+    else{
+        echo 'non';
+        $prixOrder ="asc";
+        $dateOrder ="asc";
+        $annonce = Annonce::where('title', 'LIKE', "%".$titleValue."%")
+                        ->orderBy('prix', $prixOrder)
+                            ->orderBy('created_at', $dateOrder)
+                                ->get();
 
-        $annonce = Annonce::orderBy('prix','desc')->get();
+        return view('Annonce.search')->with('Annonce',$annonce);
+    }
+        
     
-
-    return view('Annonce.search')->with('Annonce',$annonce);
 
     }
 
@@ -156,7 +174,12 @@ class AnnonceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->hasFile('image')){
+        $annonce = Annonce::find($id);
+
+        if(Auth::user()->id !== $annonce->user_id){
+            return redirect('/Annonce')->with('error','You\'r Not The Creator');
+
+        }else if($request->hasFile('image')){
             $filenameExt = $request->file('image1')->getClientOriginalName(); 
             $filename = pathinfo($filenameExt,PATHINFO_FILENAME);
             $extension = $request->file('image1')->getClientOriginalExtension();
@@ -200,7 +223,17 @@ class AnnonceController extends Controller
     public function destroy($id)
     {
         $annonce = Annonce::find($id);
+        
+        // CHECK FOR THE RIGHT USER BEBORE DELETE
 
+        if(Auth::user()->id !== $annonce->user_id){
+            return redirect('/Annonce')->with('error','You Don\'t Have Acess');
+        }
+
+        if ($annonce->image2 !='noImage.jpg') {
+            Storage::delete('public/images/'.$annonce->image2);
+        }
+        Storage::delete('public/images/'.$annonce->image1);
         $annonce->delete();
 
         return redirect('/Annonce')->with('success','Add Deleted');
